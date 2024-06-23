@@ -1,9 +1,7 @@
-import { Agent, Topic } from "od-lite";
-import type { Action } from "od-lite/dist/types/actions";
+import { Agent, Topic, type Message, type Action } from "od-lite";
 import Together from "together-ai";
 import { EXAMPLES, MINIMAL_SYSTEM_PREFIX, SYSTEM_SUFFIX } from "./prompt";
 import OpenAI from "openai";
-import type { Message } from "od-lite/dist/types/messages";
 
 const systemPrompt = `${MINIMAL_SYSTEM_PREFIX}\n\n${SYSTEM_SUFFIX}`;
 const example = `Here is an example of how you can interact with the environment for task solving:\n${EXAMPLES}\n\nNOW, LET'S START!`

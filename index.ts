@@ -1,9 +1,8 @@
-import { Topic } from "od-lite";
+import { Session, Topic } from "od-lite";
 import { OpenAIAgent } from "./agent";
 import TM from "./tm";
 import chalk from "chalk";
 import * as readline from 'readline';
-import Session from "./session";
 import { BasicRuntime } from "./runtime";
 
 const runtime = new BasicRuntime(new TM());
