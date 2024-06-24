@@ -1,5 +1,5 @@
 export const parseForCommand = (response: string | undefined | null) => {
-  const regex = /<execute_command>(.*?)<\/execute_command>/;
+  const regex = /<execute_cmd>(.*?)<\/execute_cmd>/;
   const match = response?.match(regex);
 
   return match?.[1];

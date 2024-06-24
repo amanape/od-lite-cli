@@ -1,8 +1,10 @@
 # od-lite-usage
 
+![alt text](assets/image.png)
+
 ## Description
 
-This project demonstrates how to use the `od-lite` package to create an autonomous AI agent through a CLI. It is for demonstration purposes and only has handlers to write to the terminal, and read a file in the current directory.
+This project demonstrates how to use the `od-lite` package to create an autonomous AI agent through a CLI. It is for demonstration purposes and only has handlers to write to the terminal, and read a file in the current directory. It does not contain proper error handling, planning and reasoning, or any other features that would be necessary for a production-ready application.
 
 ## Usage
 
