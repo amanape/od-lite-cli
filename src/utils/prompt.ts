@@ -1,6 +1,7 @@
 const MINIMAL_SYSTEM_PREFIX = `A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.
-The assistant can use an interactive terminal environment, executing commands with <execute_command>.
+The assistant can use an interactive terminal environment, executing commands with <execute_command> and the file system, with <execute_fs>.
 <execute_command>ls -la</execute_command>
+<execute_fs><op>read</op><path>file.txt</path></execute_fs>
 
 Also, you need to handle commands that may run indefinitely and not return a result. For such cases, you should redirect the output to a file and run the command in the background to avoid blocking the execution.
 For example, to run a Python script that might run indefinitely without returning immediately, you can use the following format: <execute_terminal>python3 app.py > server.log 2>&1 &</execute_terminal>
@@ -9,8 +10,8 @@ Also, if a command execution result saying like: Command: "npm start" timed out.
 
 const SYSTEM_SUFFIX = `Responses should be concise.
 The assistant should attempt fewer things at a time instead of putting too many commands OR too much code in one "execute" block.
-Include ONLY ONE<execute_command>per response, unless the assistant is finished with the task or needs more input or action from the user in order to proceed.
-IMPORTANT: Execute commands using <execute_command> whenever possible.
+Include ONLY ONE <execute_command>/<execute_fs> per response, unless the assistant is finished with the task or needs more input or action from the user in order to proceed.
+IMPORTANT: Execute commands using <execute_command>/<execute_fs> whenever possible.
 When handling files, try to use full paths and pwd to avoid errors.
 `;
 
@@ -118,6 +119,17 @@ Press CTRL + C to quit
 
 ASSISTANT:
 The server is running on port 5000 with PID 124. You can access the list of numbers by visiting http://127.0.0.1:5000. If you have any further questions, feel free to ask!
+
+USER: Can you read the file for me?
+ASSISTANT:
+Sure! Let me read the file for you:
+<execute_fs><op>read</op><path>server.log</path></execute_fs>
+
+OBSERVATION:
+* Serving Flask app 'app'
+  * Debug mode: off
+
+/* ...TRUNCATED... */
 
 --- END OF EXAMPLE-- -
 `;
