@@ -42,7 +42,7 @@ export class TogetherAgent implements Agent {
 
 export class OpenAIAgent implements Agent {
   private readonly openai: OpenAI;
-  private readonly messages: { role: "user" | "system"; content: string; }[] = [
+  private readonly messages: { role: "user" | "system" | "assistant"; content: string; }[] = [
     { role: "system", content: systemPrompt },
     { role: "user", content: example },
   ];
@@ -54,17 +54,16 @@ export class OpenAIAgent implements Agent {
   }
 
   public async query(message: string): Promise<Action | Message> {
+    this.messages.push({ role: "user", content: message });
     const response = await this.openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [
-        ...this.messages,
-        { role: "user", content: message },
-      ],
+      messages: this.messages,
     });
 
     const content = response.choices?.[0].message?.content;
-    const command = parse(content);
+    this.messages.push({ role: "assistant", content: content });
 
+    const command = parse(content);
     if (command) return { type: Topic.ACTION, data: { command: command } };
     return { type: Topic.MESSAGE, data: { role: "ai", message: content } };
   }

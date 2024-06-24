@@ -1,11 +1,11 @@
 import { Session, Topic } from "od-lite";
 import { OpenAIAgent } from "./agent";
-import TM from "./tm";
+import TerminalManager from "./terminal-manager";
 import chalk from "chalk";
 import * as readline from 'readline';
 import { BasicRuntime } from "./runtime";
 
-const runtime = new BasicRuntime(new TM());
+const runtime = new BasicRuntime(new TerminalManager());
 const openAIAgent = new OpenAIAgent();
 
 const session = new Session(openAIAgent, runtime);
@@ -15,31 +15,31 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question(`${chalk.blue('OpenDevin')}: How can I help you today?\n${chalk.green('You')}: `, async (answer) => {
-  session.pubsub.publish({ type: Topic.MESSAGE, data: { role: "user", message: answer } });
-  rl.close();
-});
+const promptUser = (text: string) => {
+  rl.question(`\n${chalk.blue('OpenDevin')}: ${text}\n${chalk.green('You')}: `, async (answer) => {
+    session.pubsub.publish({ type: Topic.MESSAGE, data: { role: "user", message: answer } });
+  });
+}
+
+promptUser('How can I help you today?');
 
 session.actions.subscribe({
   next: async (payload) => {
-    console.log(chalk.yellow('[ACTION]'), chalk.blue(payload.data.command));
+    console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue('> ' + payload.data.command));
   }
 });
 
 session.messages.subscribe({
   next: async (payload) => {
-    console.log(chalk.gray(JSON.stringify(payload, null, 2)));
-
     if (payload.data.role === 'ai') {
-      console.log(`${chalk.blue('OpenDevin')}: `, payload.data.message);
-    } else {
-      console.log(chalk.gray('[LOADING]'), 'Processing your request...');
+      promptUser(payload.data.message);
     }
   }
 });
 
 session.observations.subscribe({
   next: (payload) => {
-    console.log(chalk.yellow('[OBSERVATION]'), payload.data.output);
+    const stripped = payload.data.output.endsWith('\n') ? payload.data.output.slice(0, -1) : payload.data.output;
+    console.log(`${chalk.yellow('[OBSERVATION]')}${stripped ? '\n' + stripped : ' ' + chalk.gray('EMPTY')}`);
   }
 });
