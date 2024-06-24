@@ -127,9 +127,5 @@ const INVALID_INPUT_MESSAGE = [
   'For terminal commands, use <execute_command>YOUR_COMMAND</execute_command>.\n',
 ];
 
-export {
-  MINIMAL_SYSTEM_PREFIX,
-  SYSTEM_SUFFIX,
-  EXAMPLES,
-  INVALID_INPUT_MESSAGE,
-};
+export const SYSTEM_PROMPT = `${MINIMAL_SYSTEM_PREFIX}\n\n${SYSTEM_SUFFIX}`;
+export const USER_EXAMPLE = `Here is an example of how you can interact with the environment for task solving:\n${EXAMPLES}\n\nNOW, LET'S START!`

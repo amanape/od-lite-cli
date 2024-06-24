@@ -1,5 +1,6 @@
-import { ObservationFactory, type Action, type Observation, type Runtime } from "od-lite";
-import type TerminalManager from "./terminal-manager";
+import type { Action, Observation, Runtime } from "od-lite";
+import type { TerminalManager } from "./terminal-manager";
+import { ObservationFactory } from "./observation-factory";
 
 export class BasicRuntime implements Runtime {
   constructor(private readonly terminalManager: TerminalManager) { }

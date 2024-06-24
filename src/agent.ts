@@ -1,17 +1,8 @@
 import { Agent, Topic, type Message, type Action } from "od-lite";
 import Together from "together-ai";
-import { EXAMPLES, MINIMAL_SYSTEM_PREFIX, SYSTEM_SUFFIX } from "./prompt";
 import OpenAI from "openai";
-
-const systemPrompt = `${MINIMAL_SYSTEM_PREFIX}\n\n${SYSTEM_SUFFIX}`;
-const example = `Here is an example of how you can interact with the environment for task solving:\n${EXAMPLES}\n\nNOW, LET'S START!`
-
-const parse = (response: string | undefined | null) => {
-  const regex = /<execute_command>(.*?)<\/execute_command>/;
-  const match = response?.match(regex);
-
-  return match?.[1];
-}
+import { parse } from "./utils";
+import { SYSTEM_PROMPT, USER_EXAMPLE } from "./prompt";
 
 export class TogetherAgent implements Agent {
   private readonly together: Together;
@@ -26,8 +17,8 @@ export class TogetherAgent implements Agent {
     const response = await this.together.chat.completions.create({
       model: "Qwen/Qwen2-72B-Instruct",
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: example },
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: USER_EXAMPLE },
         { role: "user", content: message },
       ],
     });
@@ -43,8 +34,8 @@ export class TogetherAgent implements Agent {
 export class OpenAIAgent implements Agent {
   private readonly openai: OpenAI;
   private readonly messages: { role: "user" | "system" | "assistant"; content: string; }[] = [
-    { role: "system", content: systemPrompt },
-    { role: "user", content: example },
+    { role: "system", content: SYSTEM_PROMPT },
+    { role: "user", content: USER_EXAMPLE },
   ];
 
   constructor() {

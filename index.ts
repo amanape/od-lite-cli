@@ -1,9 +1,9 @@
 import { Session, Topic } from "od-lite";
-import { OpenAIAgent } from "./agent";
-import TerminalManager from "./terminal-manager";
+import { OpenAIAgent } from "./src/agent";
+import { TerminalManager } from "./src/terminal-manager";
 import chalk from "chalk";
 import * as readline from 'readline';
-import { BasicRuntime } from "./runtime";
+import { BasicRuntime } from "./src/runtime";
 
 const runtime = new BasicRuntime(new TerminalManager());
 const openAIAgent = new OpenAIAgent();
