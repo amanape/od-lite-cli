@@ -1,9 +1,9 @@
 import type { Runtime } from "od-lite";
-import type { TerminalManager } from "./managers/terminal-manager";
-import { ObservationFactory } from "./utils/observation-factory";
-import { isCommandAction, type Action } from "./types/actions";
-import type { Observation } from "./types/observations";
-import type { FileManager } from "./managers/file-manager";
+import type { TerminalManager } from "../managers/terminal-manager";
+import { ObservationFactory } from "../utils/observation-factory";
+import { isCommandAction, type Action } from "../types/actions";
+import type { Observation } from "../types/observations";
+import type { FileManager } from "../managers/file-manager";
 
 export class BasicRuntime implements Runtime<Action, Observation> {
   constructor(
