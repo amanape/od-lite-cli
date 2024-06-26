@@ -2,8 +2,8 @@ import chalk from "chalk";
 import * as readline from 'readline';
 
 import { Session, type Message, Topic } from "od-lite";
-import { type Action } from "./types/actions";
-import { type Observation } from "./types/observations";
+import { type Action } from "../types/actions";
+import { type Observation } from "../types/observations";
 import { EventHandler } from "./event-handler";
 
 type CLIConfig = {

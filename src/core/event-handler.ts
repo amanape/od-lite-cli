@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import { type Action } from "./types/actions";
-import { type Observation } from "./types/observations";
+import { type Action } from "../types/actions";
+import { type Observation } from "../types/observations";
 
 export class EventHandler {
   static async handleAction(action: Action) {

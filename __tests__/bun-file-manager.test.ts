@@ -1,6 +1,6 @@
 import { describe, beforeAll, afterAll, it, expect } from "bun:test";
 import { unlink } from "node:fs/promises";
-import BunFileManager from "../src/bun-file-manager";
+import BunFileManager from "../src/core/bun-file-manager";
 
 describe('BunFileManager', () => {
   beforeAll(async () => {

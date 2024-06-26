@@ -1,7 +1,7 @@
 import { Session } from "od-lite";
-import { OpenAIAgent } from "./src/agent";
-import CLI from "./src/cli";
-import BunRuntime from "./src/bun-runtime";
+import { OpenAIAgent } from "./core/agent";
+import CLI from "./core/cli";
+import BunRuntime from "./core/bun-runtime";
 
 const session = new Session(
   new OpenAIAgent(),

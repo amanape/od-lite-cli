@@ -1,6 +1,6 @@
 import { Topic, type Runtime } from "od-lite";
-import type { Action } from "./types/actions";
-import type { Observation } from "./types/observations";
+import type { Action } from "../types/actions";
+import type { Observation } from "../types/observations";
 import BunTerminalManager from "./bun-terminal-manager";
 import BunFileManager from "./bun-file-manager";
 
@@ -32,6 +32,7 @@ class BunRuntime implements Runtime<Action, Observation> {
         }
       }
     } catch (error) {
+      // @ts-expect-error - `data.type` does not recognize that the type is valid
       return {
         type: Topic.OBSERVATION,
         data: {

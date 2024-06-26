@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import BunTerminalManager from "../src/bun-terminal-manager";
+import BunTerminalManager from "../src/core/bun-terminal-manager";
 
 describe('BunTerminalManager', () => {
   it('should run a terminal command and return stdout', async () => {

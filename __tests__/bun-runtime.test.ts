@@ -1,10 +1,10 @@
 import { describe, beforeAll, afterAll, it, expect, spyOn, mock, type Mock } from "bun:test";
-import BunTerminalManager from "../src/bun-terminal-manager";
+import BunTerminalManager from "../src/core/bun-terminal-manager";
 import type { CommandAction } from "../src/types/actions/terminal";
 import { Topic } from "od-lite";
 import type { CommandObservation } from "../src/types/observations/terminal";
-import BunRuntime from "../src/bun-runtime";
-import BunFileManager from "../src/bun-file-manager";
+import BunRuntime from "../src/core/bun-runtime";
+import BunFileManager from "../src/core/bun-file-manager";
 import type { CreateFileAction, ReadFileAction, UpdateFileAction } from "../src/types/actions/file-system";
 import type { CreateFileObservation, ReadFileObservation, UpdateFileObservation } from "../src/types/observations/file-system";
 
@@ -48,7 +48,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "cmd",
-        output: "file1\nfile2\nfile3\n"
+        output: "OBSERVATION: file1\nfile2\nfile3\n"
       }
     };
 
@@ -71,7 +71,7 @@ describe('BunRuntime', () => {
       data: {
         type: "cmd",
         error: true,
-        output: "Command failed: l l"
+        output: "ERROR: Command failed: l l"
       }
     };
 
@@ -94,7 +94,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "read",
-        output: "Hello, World!"
+        output: "OBSERVATION: Hello, World!"
       }
     };
 
@@ -116,7 +116,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "read",
-        output: "File not found",
+        output: "ERROR: File not found",
         error: true,
       }
     };
@@ -140,7 +140,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "create",
-        output: "File created: _test_file2.txt (0 bytes)"
+        output: "OBSERVATION: File created: _test_file2.txt (0 bytes)"
       }
     };
 
@@ -163,7 +163,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "create",
-        output: "File created: _test_file3.txt (13 bytes)"
+        output: "OBSERVATION: File created: _test_file3.txt (13 bytes)"
       }
     };
 
@@ -185,7 +185,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "create",
-        output: "File already exists",
+        output: "ERROR: File already exists",
         error: true,
       }
     };
@@ -210,7 +210,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "update",
-        output: "Hello, World! Updated!"
+        output: "OBSERVATION: Hello, World! Updated!"
       }
     };
 
@@ -233,7 +233,7 @@ describe('BunRuntime', () => {
       type: Topic.OBSERVATION,
       data: {
         type: "update",
-        output: "File not found",
+        output: "ERROR: File not found",
         error: true,
       }
     };
