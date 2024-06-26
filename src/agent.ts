@@ -25,13 +25,17 @@ export class OpenAIAgent implements Agent<Action> {
     });
 
     const content = response.choices?.[0].message?.content;
-    this.messages.push({ role: "assistant", content: content || "NULL" });
+    this.messages. push({ role: "assistant", content: content || "NULL" });
 
     const command = parseForCommand(content);
     const fs = parseForFs(content);
 
-    if (command) return { type: Topic.ACTION, data: { command: command } };
-    if (fs.operation && fs.path) return { type: Topic.ACTION, data: { path: fs.path || "" } };
+    if (command) return { type: Topic.ACTION, data: { type: "cmd", command: command } };
+    if (fs.operation && fs.path) {
+      if (fs.operation === 'read') return { type: Topic.ACTION, data: { type: "read", path: fs.path } };
+      if (fs.operation === 'create') return { type: Topic.ACTION, data: { type: "create", path: fs.path, content: fs.content } };
+      if (fs.operation === 'update' && fs.content) return { type: Topic.ACTION, data: { type: "update", path: fs.path, content: fs.content } };
+    }
 
     return { type: Topic.MESSAGE, data: { role: "ai", message: content || "NULL" } };
   }

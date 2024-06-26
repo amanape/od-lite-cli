@@ -4,19 +4,28 @@ import { type Observation } from "./types/observations";
 
 export class EventHandler {
   static async handleAction(action: Action) {
-    if (action.data.type === 'cmd') {
-      console.log('\n' + chalk.yellow('[ACTION]'), '> ' + chalk.blue(action.data.command));
-    } else {
-      console.log('\n' + chalk.yellow('[ACTION]'), '[READ] ' + chalk.blue(action.data.path));
+    switch (action.data.type) {
+      case "cmd":
+        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue('>'), action.data.command);
+        break;
+      case "read":
+      case "create":
+      case "update":
+        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue(`[${action.data.type.toUpperCase()}]`), action.data.path);
+        break;
     }
   }
 
   static async handleObservation(observation: Observation) {
-    if (observation.data.type === 'cmd') {
-      const stripped = observation.data.output.endsWith('\n') ? observation.data.output.slice(0, -1) : observation.data.output;
-      console.log(`${chalk.yellow('[OBSERVATION]')}${stripped ? '\n' + stripped : ' ' + chalk.gray('EMPTY')}`);
-    } else {
-      console.log(`${chalk.yellow('[OBSERVATION]')} ${chalk.blue('[CONTENT]')} ${observation.data.output}`);
+    switch (observation.data.type) {
+      case "cmd":
+        console.log(chalk.yellow('[OBSERVATION]'), observation.data.output.trim() || chalk.gray('EMPTY'));
+        break;
+      case "read":
+      case "create":
+      case "update":
+        console.log(chalk.yellow('[OBSERVATION]'), chalk.blue(`[${observation.data.type.toUpperCase()}]`), observation.data.output.trim() || chalk.gray('EMPTY'));
+        break;
     }
   }
 }
