@@ -17,12 +17,14 @@ export class EventHandler {
   }
 
   static async handleObservation(observation: Observation) {
+    // remove OBSERVATION: or ERROR: prefix
+    const output = observation.data.output.replace(/^(OBSERVATION|ERROR): /, '').trim();
     switch (observation.data.type) {
       case "cmd":
         console.log(
           chalk.yellow('[OBSERVATION]'),
           observation.data.error ? chalk.red('[ERROR]') : chalk.green('[SUCCESS]'),
-          observation.data.output.trim() || chalk.gray('EMPTY'),
+          chalk.gray(output || 'EMPTY'),
         );
         break;
       case "read":
@@ -31,7 +33,7 @@ export class EventHandler {
         console.log(
           chalk.yellow('[OBSERVATION]'),
           observation.data.error ? chalk.red('[ERROR]') : chalk.green('[SUCCESS]'),
-          observation.data.output.trim() || chalk.gray('EMPTY'),
+          chalk.gray(output || 'EMPTY'),
         );
         break;
     }

@@ -25,9 +25,12 @@ class CLI {
     // handle message events separately
     this.session.messages.subscribe({ next: this.handleMessage.bind(this) });
 
-    config.debug ?
-      this.registerVerboseListeners() :
+    if (config.debug) {
+      console.log(chalk.yellow('[DEBUG MODE]'));
+      this.registerVerboseListeners();
+    } else {
       this.registerListeners();
+    }
   }
 
   public start() {
