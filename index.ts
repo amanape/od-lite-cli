@@ -1,13 +1,11 @@
 import { Session } from "od-lite";
-import { OpenAIAgent } from "./src/implementations/agent";
-import { TerminalManager } from "./src/managers/terminal-manager";
-import { BasicRuntime } from "./src/implementations/runtime";
-import { FileManager } from "./src/managers/file-manager";
+import { OpenAIAgent } from "./src/agent";
 import CLI from "./src/cli";
+import BunRuntime from "./src/bun-runtime";
 
 const session = new Session(
   new OpenAIAgent(),
-  new BasicRuntime(new TerminalManager(), new FileManager())
+  new BunRuntime(),
 );
 
 const cli = new CLI(session);

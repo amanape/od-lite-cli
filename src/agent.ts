@@ -1,8 +1,8 @@
 import { Agent, Topic, type Message } from "od-lite";
 import OpenAI from "openai";
-import { parseForCommand, parseForFs } from "../utils/utils";
-import { SYSTEM_PROMPT, USER_EXAMPLE } from "../utils/prompt";
-import type { Action } from "../types/actions";
+import { parseForCommand, parseForFs } from "./utils/utils";
+import { SYSTEM_PROMPT, USER_EXAMPLE } from "./utils/prompt";
+import type { Action } from "./types/actions";
 
 export class OpenAIAgent implements Agent<Action> {
   private readonly openai: OpenAI;
