@@ -1,5 +1,5 @@
 class BunTerminalManager {
-  public static readonly version = "0.0.1";
+  public static readonly version = "0.0.2";
 
   static async run(command: string): Promise<string> {
     const proc = Bun.spawn(command.split(" "), {
