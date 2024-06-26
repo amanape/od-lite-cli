@@ -4,6 +4,7 @@ export interface CommandObservation extends ObservationEvent {
   data: {
     type: 'cmd';
     output: string;
+    error?: boolean;
   }
 }
 

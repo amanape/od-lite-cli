@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
-    "od-lite": "latest",
+    "od-lite": "^0.3.12",
     "openai": "^4.52.1",
     "together-ai": "^0.6.0-alpha.3"
   }

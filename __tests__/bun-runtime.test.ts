@@ -55,6 +55,29 @@ describe('BunRuntime', () => {
     expect(observation).toEqual(expectedObservation);
   });
 
+  it('should handle errors when converting a terminal command action into an observation', async () => {
+    cmdSpy.mockRejectedValue(new Error('Command failed: l l'));
+    const action: CommandAction = {
+      type: Topic.ACTION,
+      data: {
+        type: 'cmd',
+        command: 'l l'
+      }
+    };
+
+    const observation = await runtime.execute(action);
+    const expectedObservation: CommandObservation = {
+      type: Topic.OBSERVATION,
+      data: {
+        type: "cmd",
+        error: true,
+        output: "Command failed: l l"
+      }
+    };
+
+    expect(observation).toEqual(expectedObservation);
+  });
+
   it('should convert a file system read action into an observation', async () => {
     const action: ReadFileAction = {
       type: Topic.ACTION,
@@ -72,6 +95,29 @@ describe('BunRuntime', () => {
       data: {
         type: "read",
         output: "Hello, World!"
+      }
+    };
+
+    expect(observation).toEqual(expectedObservation);
+  });
+
+  it('should handle errors when converting a file system read action into an observation', async () => {
+    fsReadSpy.mockRejectedValue(new Error('File not found'));
+    const action: ReadFileAction = {
+      type: Topic.ACTION,
+      data: {
+        type: 'read',
+        path: '_test_file4.txt'
+      }
+    }
+
+    const observation = await runtime.execute(action);
+    const expectedObservation: ReadFileObservation = {
+      type: Topic.OBSERVATION,
+      data: {
+        type: "read",
+        output: "File not found",
+        error: true,
       }
     };
 
@@ -124,6 +170,29 @@ describe('BunRuntime', () => {
     expect(observationWithContent).toEqual(expectedObservationWithContent);
   });
 
+  it('should handle errors when converting a file system create action into an observation', async () => {
+    fsCreateSpy.mockRejectedValue(new Error('File already exists'));
+    const action: CreateFileAction = {
+      type: Topic.ACTION,
+      data: {
+        type: 'create',
+        path: '_test_file2.txt',
+      }
+    }
+
+    const observation = await runtime.execute(action);
+    const expectedObservation: CreateFileObservation = {
+      type: Topic.OBSERVATION,
+      data: {
+        type: "create",
+        output: "File already exists",
+        error: true,
+      }
+    };
+
+    expect(observation).toEqual(expectedObservation);
+  });
+
   it('should convert a file system update action into an observation', async () => {
     const action: UpdateFileAction = {
       type: Topic.ACTION,
@@ -142,6 +211,30 @@ describe('BunRuntime', () => {
       data: {
         type: "update",
         output: "Hello, World! Updated!"
+      }
+    };
+
+    expect(observation).toEqual(expectedObservation);
+  });
+
+  it('should handle errors when converting a file system update action into an observation', async () => {
+    fsUpdateSpy.mockRejectedValue(new Error('File not found'));
+    const action: UpdateFileAction = {
+      type: Topic.ACTION,
+      data: {
+        type: 'update',
+        path: '_test_file4.txt',
+        content: 'Hello, World! Updated!'
+      }
+    }
+
+    const observation = await runtime.execute(action);
+    const expectedObservation: UpdateFileObservation = {
+      type: Topic.OBSERVATION,
+      data: {
+        type: "update",
+        output: "File not found",
+        error: true,
       }
     };
 
