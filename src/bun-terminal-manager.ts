@@ -2,13 +2,15 @@ class BunTerminalManager {
   public static readonly version = "0.0.1";
 
   static async run(command: string): Promise<string> {
-    try {
-      const proc = Bun.spawn(command.split(" "));
-      return Bun.readableStreamToText(proc.stdout);
-    } catch (e) {
-      if (e instanceof Error) return e.message;
-      else return String(e);
-    }
+    const proc = Bun.spawn(command.split(" "), {
+      stderr: "pipe",
+    });
+
+    const error = (await Bun.readableStreamToText(proc.stderr)).trim();
+    const output = (await Bun.readableStreamToText(proc.stdout)).trim();
+
+    if (error) throw new Error(error);
+    return output;
   }
 }
 

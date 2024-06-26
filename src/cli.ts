@@ -38,7 +38,7 @@ class CLI {
   }
 
   private promptUser(text: string) {
-    this.rl.question(`\n${chalk.blue('OpenDevin')}: ${text}\n${chalk.green('You')}: `, async (answer) => {
+    this.rl.question(`\n${chalk.blue('AI')}: ${text}\n${chalk.cyan('You')}: `, async (answer) => {
       this.session.pubsub.publish({ type: Topic.MESSAGE, data: { role: "user", message: answer } });
     });
   }
