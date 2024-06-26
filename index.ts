@@ -8,5 +8,7 @@ const session = new Session(
   new BunRuntime(),
 );
 
-const cli = new CLI(session);
+const debug = Bun.argv.includes('--debug');
+
+const cli = new CLI(session, { debug });
 cli.start();
