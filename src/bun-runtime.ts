@@ -7,7 +7,7 @@ import BunFileManager from "./bun-file-manager";
 const DEFAULT_ERROR_MESSAGE = "An unknown error occurred";
 
 class BunRuntime implements Runtime<Action, Observation> {
-  public static readonly version = "0.0.2";
+  public static readonly version = "0.0.3";
 
   public async execute(action: Action): Promise<Observation> {
     try {
