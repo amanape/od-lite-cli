@@ -11,22 +11,23 @@ class BunRuntime implements Runtime<Action, Observation> {
 
   public async execute(action: Action): Promise<Observation> {
     try {
+      let output: string;
       switch (action.data.type) {
         case "cmd": {
-          const output = await BunTerminalManager.run(action.data.command);
-          return { type: Topic.OBSERVATION, data: { type: 'cmd', output } };
+          output = await BunTerminalManager.run(action.data.command);
+          return { type: Topic.OBSERVATION, data: { type: 'cmd', output } }
         }
         case "read": {
-          const contents = await BunFileManager.read(action.data.path);
-          return { type: Topic.OBSERVATION, data: { type: 'read', output: contents } };
+          output = await BunFileManager.read(action.data.path);
+          return { type: Topic.OBSERVATION, data: { type: 'read', output } }
         }
         case "create": {
-          const result = await BunFileManager.create(action.data.path, action.data.content);
-          return { type: Topic.OBSERVATION, data: { type: 'create', output: result } };
+          output = await BunFileManager.create(action.data.path, action.data.content);
+          return { type: Topic.OBSERVATION, data: { type: 'create', output } }
         }
         case "update": {
-          const contents = await BunFileManager.update(action.data.path, action.data.content);
-          return { type: Topic.OBSERVATION, data: { type: 'update', output: contents } };
+          output = await BunFileManager.update(action.data.path, action.data.content);
+          return { type: Topic.OBSERVATION, data: { type: 'update', output } }
         }
       }
     } catch (error) {
