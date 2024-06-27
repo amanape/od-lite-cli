@@ -2,6 +2,7 @@
   "name": "celi",
   "module": "index.ts",
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "compile": "bun build --compile --minify --sourcemap src --outfile celi",
     "celi": "bun src/index.ts"
