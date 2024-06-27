@@ -1,7 +1,11 @@
 {
-  "name": "od-lite-usage",
+  "name": "celi",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "compile": "bun build --compile --minify --sourcemap src --outfile celi",
+    "celi": "bun src/index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -10,8 +14,8 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
-    "od-lite": "latest",
-    "openai": "^4.52.0",
-    "together-ai": "^0.6.0-alpha.3"
+    "commander": "^12.1.0",
+    "od-lite": "^0.3.12",
+    "openai": "^4.52.1"
   }
 }
