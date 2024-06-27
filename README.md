@@ -2,7 +2,7 @@
 
 ## Basic Example
 
-![basic example](image.png)
+![basic example](assets/image.png)
 
 ## Description
 
