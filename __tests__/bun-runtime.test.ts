@@ -1,12 +1,12 @@
 import { describe, beforeAll, afterAll, it, expect, spyOn, mock, type Mock } from "bun:test";
 import BunTerminalManager from "../src/core/bun-terminal-manager";
-import type { CommandAction } from "../src/types/actions/terminal";
+import type { CommandAction } from "od-core/dist/types/actions/terminal";
 import { Topic } from "od-lite";
-import type { CommandObservation } from "../src/types/observations/terminal";
+import type { CommandObservation } from "od-core/dist/types/observations/terminal";
 import BunRuntime from "../src/core/bun-runtime";
 import BunFileManager from "../src/core/bun-file-manager";
-import type { CreateFileAction, ReadFileAction, UpdateFileAction } from "../src/types/actions/file-system";
-import type { CreateFileObservation, ReadFileObservation, UpdateFileObservation } from "../src/types/observations/file-system";
+import type { CreateFileAction, ReadFileAction, UpdateFileAction } from "od-core/dist/types/actions/file-system";
+import type { CreateFileObservation, ReadFileObservation, UpdateFileObservation } from "od-core/dist/types/observations/file-system";
 
 let cmdSpy: Mock<any>;
 let fsReadSpy: Mock<any>;
@@ -36,7 +36,7 @@ describe('BunRuntime', () => {
     const action: CommandAction = {
       type: Topic.ACTION,
       data: {
-        type: 'cmd',
+        identifier: 'cmd',
         command: 'ls'
       }
     };
@@ -47,7 +47,7 @@ describe('BunRuntime', () => {
     const expectedObservation: CommandObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "cmd",
+        identifier: "cmd",
         output: "OBSERVATION: file1\nfile2\nfile3\n"
       }
     };
@@ -60,7 +60,7 @@ describe('BunRuntime', () => {
     const action: CommandAction = {
       type: Topic.ACTION,
       data: {
-        type: 'cmd',
+        identifier: 'cmd',
         command: 'l l'
       }
     };
@@ -69,7 +69,7 @@ describe('BunRuntime', () => {
     const expectedObservation: CommandObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "cmd",
+        identifier: "cmd",
         error: true,
         output: "ERROR: Command failed: l l"
       }
@@ -82,7 +82,7 @@ describe('BunRuntime', () => {
     const action: ReadFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'read',
+        identifier: 'read',
         path: '_test_file1.txt'
       }
     }
@@ -93,7 +93,7 @@ describe('BunRuntime', () => {
     const expectedObservation: ReadFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "read",
+        identifier: "read",
         output: "OBSERVATION: Hello, World!"
       }
     };
@@ -106,7 +106,7 @@ describe('BunRuntime', () => {
     const action: ReadFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'read',
+        identifier: 'read',
         path: '_test_file4.txt'
       }
     }
@@ -115,7 +115,7 @@ describe('BunRuntime', () => {
     const expectedObservation: ReadFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "read",
+        identifier: "read",
         output: "ERROR: File not found",
         error: true,
       }
@@ -128,7 +128,7 @@ describe('BunRuntime', () => {
     const action: CreateFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'create',
+        identifier: 'create',
         path: '_test_file2.txt',
       }
     }
@@ -139,7 +139,7 @@ describe('BunRuntime', () => {
     const expectedObservation: CreateFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "create",
+        identifier: "create",
         output: "OBSERVATION: File created: _test_file2.txt (0 bytes)"
       }
     };
@@ -150,7 +150,7 @@ describe('BunRuntime', () => {
     const actionWithContent: CreateFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'create',
+        identifier: 'create',
         path: '_test_file3.txt',
         content: 'Hello, World!'
       }
@@ -162,7 +162,7 @@ describe('BunRuntime', () => {
     const expectedObservationWithContent: CreateFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "create",
+        identifier: "create",
         output: "OBSERVATION: File created: _test_file3.txt (13 bytes)"
       }
     };
@@ -175,7 +175,7 @@ describe('BunRuntime', () => {
     const action: CreateFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'create',
+        identifier: 'create',
         path: '_test_file2.txt',
       }
     }
@@ -184,7 +184,7 @@ describe('BunRuntime', () => {
     const expectedObservation: CreateFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "create",
+        identifier: "create",
         output: "ERROR: File already exists",
         error: true,
       }
@@ -197,8 +197,10 @@ describe('BunRuntime', () => {
     const action: UpdateFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'update',
+        identifier: 'update',
         path: '_test_file1.txt',
+        start: 0,
+        stop: 5,
         content: 'Hello, World! Updated!'
       }
     }
@@ -209,7 +211,7 @@ describe('BunRuntime', () => {
     const expectedObservation: UpdateFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "update",
+        identifier: "update",
         output: "OBSERVATION: Hello, World! Updated!"
       }
     };
@@ -222,7 +224,7 @@ describe('BunRuntime', () => {
     const action: UpdateFileAction = {
       type: Topic.ACTION,
       data: {
-        type: 'update',
+        identifier: 'update',
         path: '_test_file4.txt',
         content: 'Hello, World! Updated!'
       }
@@ -232,7 +234,7 @@ describe('BunRuntime', () => {
     const expectedObservation: UpdateFileObservation = {
       type: Topic.OBSERVATION,
       data: {
-        type: "update",
+        identifier: "update",
         output: "ERROR: File not found",
         error: true,
       }

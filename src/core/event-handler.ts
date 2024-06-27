@@ -1,17 +1,16 @@
 import chalk from "chalk";
-import { type Action } from "../types/actions";
-import { type Observation } from "../types/observations";
+import type { Action, Observation } from "od-core";
 
 export class EventHandler {
   static async handleAction(action: Action) {
-    switch (action.data.type) {
+    switch (action.data.identifier) {
       case "cmd":
-        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue(`[${action.data.type.toUpperCase()}]`), action.data.command);
+        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue(`[${action.data.identifier.toUpperCase()}]`), action.data.command);
         break;
       case "read":
       case "create":
       case "update":
-        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue(`[${action.data.type.toUpperCase()}]`), action.data.path);
+        console.log('\n' + chalk.yellow('[ACTION]'), chalk.blue(`[${action.data.identifier.toUpperCase()}]`), action.data.path);
         break;
     }
   }
@@ -19,7 +18,7 @@ export class EventHandler {
   static async handleObservation(observation: Observation) {
     // remove OBSERVATION: or ERROR: prefix
     const output = observation.data.output.replace(/^(OBSERVATION|ERROR): /, '').trim();
-    switch (observation.data.type) {
+    switch (observation.data.identifier) {
       case "cmd":
         console.log(
           chalk.yellow('[OBSERVATION]'),

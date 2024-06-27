@@ -1,6 +1,5 @@
+import type { Action, Observation } from "od-core";
 import { Topic, type Runtime } from "od-lite";
-import type { Action } from "../types/actions";
-import type { Observation } from "../types/observations";
 import BunTerminalManager from "./bun-terminal-manager";
 import BunFileManager from "./bun-file-manager";
 
@@ -13,22 +12,22 @@ class BunRuntime implements Runtime<Action, Observation> {
     try {
       // Add a prefix to the output
       let output = 'OBSERVATION: ';
-      switch (action.data.type) {
+      switch (action.data.identifier) {
         case "cmd": {
           output += await BunTerminalManager.run(action.data.command);
-          return { type: Topic.OBSERVATION, data: { type: 'cmd', output } }
+          return { type: Topic.OBSERVATION, data: { identifier: 'cmd', output } }
         }
         case "read": {
           output += await BunFileManager.read(action.data.path);
-          return { type: Topic.OBSERVATION, data: { type: 'read', output } }
+          return { type: Topic.OBSERVATION, data: { identifier: 'read', output } }
         }
         case "create": {
           output += await BunFileManager.create(action.data.path, action.data.content);
-          return { type: Topic.OBSERVATION, data: { type: 'create', output } }
+          return { type: Topic.OBSERVATION, data: { identifier: 'create', output } }
         }
         case "update": {
           output += await BunFileManager.update(action.data.path, action.data.content);
-          return { type: Topic.OBSERVATION, data: { type: 'update', output } }
+          return { type: Topic.OBSERVATION, data: { identifier: 'update', output } }
         }
       }
     } catch (error) {
@@ -36,7 +35,7 @@ class BunRuntime implements Runtime<Action, Observation> {
       return {
         type: Topic.OBSERVATION,
         data: {
-          type: action.data.type,
+          identifier: action.data.identifier,
           error: true,
           output: 'ERROR: ' + (error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE)
         }

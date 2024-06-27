@@ -1,9 +1,8 @@
 import chalk from "chalk";
 import * as readline from 'readline';
-
 import { Session, type Message, Topic } from "od-lite";
-import { type Action } from "../types/actions";
-import { type Observation } from "../types/observations";
+import type { Action, Observation } from "od-core";
+
 import { EventHandler } from "./event-handler";
 
 type CLIConfig = {
@@ -43,14 +42,14 @@ class CLI {
   }
 
   private async handleMessage(message: Message) {
-    if (message.data.role === 'ai') {
+    if (message.data.identifier === 'ai') {
       this.promptUser(message.data.message);
     }
   }
 
   private promptUser(text: string) {
     this.rl.question(`\n${chalk.blue('AI')}: ${text}\n${chalk.cyan('You')}: `, async (answer) => {
-      this.session.pubsub.publish({ type: Topic.MESSAGE, data: { role: "user", message: answer } });
+      this.session.pubsub.publish({ type: Topic.MESSAGE, data: { identifier: "user", message: answer } });
     });
   }
 

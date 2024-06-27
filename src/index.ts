@@ -1,6 +1,6 @@
 import { Session } from "od-lite";
+import { OpenAIAgent } from "od-core";
 import { Command } from "commander";
-import { OpenAIAgent } from "./core/agent";
 import CLI from "./core/cli";
 import BunRuntime from "./core/bun-runtime";
 
